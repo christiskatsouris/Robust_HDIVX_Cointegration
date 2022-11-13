@@ -126,4 +126,4 @@ Harald Cramér  (25 September 1893 – 5 October 1985) was a Swedish mathematici
 
 </p>  
 
-A two-year explosive bubble has just burst on the 13th of November 2022!
+> A two-year explosive bubble has just burst on the 13th of November 2022!
