@@ -66,3 +66,7 @@ library("Robust_high_dimensional_IV_Cointegration")
 - Phillips, P. C. B., and Magdalinos, T. (2008). Limit theory for explosively cointegrated systems. Econometric Theory, 24(4), 865-887.
 - Phillips, P. C. B., and Magdalinos, T. (2007). Limit theory for moderate deviations from a unit root. Journal of Econometrics, 136(1), 115-130.
 - Yousuf, K., & Ng, S. (2021). Boosting high dimensional predictive regressions with time varying parameters. Journal of Econometrics, 224(1), 60-87.
+
+## Acknowledgments
+
+The author greatfully acknowledges financial support from the Department of Economics at the Faculty of Environment, Science and Economy of the University of Exeter, United Kingdom. 
