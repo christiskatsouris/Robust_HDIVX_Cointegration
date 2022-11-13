@@ -103,7 +103,7 @@ Christis G. Katsouris is a Lecturer in Economics at the [University of Exeter Bu
 
 The author (Christis G. Katsouris) declares no conflicts of interest.
 
-Notice that the academic research presented here is considered to be as open access to the academic and non-academic community. Therefore, we would appreciate it if appropriate acknolwedgement is given to statistical methodologies and econometric procedures implemented by academic researchers.   
+Notice that the academic research presented here is considered to be as open access to the academic and non-academic community. Therefore, we would appreciate it if appropriate acknolwedgement is given to statistical methodologies and econometric procedures developed by academic researchers and made available to the wider applied data scientist community.   
 
 # Historical Background
 
