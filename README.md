@@ -97,6 +97,8 @@ library("Robust_high_dimensional_IV_Cointegration")
 
 The author greatfully acknowledges financial support from the [Department of Economics](http://business-school.exeter.ac.uk/about/departments/economics/) of the [Faculty of Environment, Science and Economy](https://www.exeter.ac.uk/departments/ese/) at the University of Exeter, United Kingdom. 
 
+Christis G. Katsouris is a Lecturer in Economics at the University of Exeter Business School. He is also a member of the Time Series and Machine Learning Group at the School of Mathematics (Statistics Division), University of Southampton. 
+
 # Declarations
 
 The author (Christis G. Katsouris) declares no conflicts of interest.
