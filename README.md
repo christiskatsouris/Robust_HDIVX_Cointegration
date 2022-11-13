@@ -94,6 +94,7 @@ Consider the following Toeplitz structure of the covariance matrix.
 
 ## Literature on high-dimensional IV regression:
 
+- Krampe, J., Paparoditis, E., & Trenkler, C. (2022). Structural inference in sparse high-dimensional vector autoregressions. Journal of Econometrics.
 - Belloni, A., Hansen, C., & Newey, W. (2017). Simultaneous confidence intervals for high-dimensional linear models with many endogenous variables. arXiv preprint arXiv:1712.08102.
 - Gold, D., Lederer, J., & Tao, J. (2020). "Inference for high-dimensional instrumental variables regression". Journal of Econometrics, 217(1), 79-111.
 - Ning, Y., & Liu, H. (2017). A general theory of hypothesis tests and confidence regions for sparse high dimensional models. The Annals of Statistics, 45(1), 158-195.
