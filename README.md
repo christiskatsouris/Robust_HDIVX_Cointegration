@@ -2,7 +2,7 @@
 
 ### Description 
 
-The R package [‘Robust_high_dimensional_IV_Cointegration’](https://github.com/christiskatsouris/Robust_high_dimensional_IV_Cointegration) (under development by Christis G. Katsouris) implements robust econometric estimation and inference methodologies for igh-Dimensional IV Cointegration Models with autoregressive roots across the spectrum of stationarity and nonstationarity, with persistence types as defined by Magdalinos and Phillips (2020). In particular, this R package builds on the [‘ivxPredictive’](https://github.com/christiskatsouris/ivxPredictive) R package prepared by Christis G. Katsouris. 
+The R package [‘Robust_high_dimensional_IV_Cointegration’](https://github.com/christiskatsouris/Robust_high_dimensional_IV_Cointegration) (under development by Christis G. Katsouris) implements robust econometric estimation and inference methodologies for high-Dimensional IV Cointegration Models with autoregressive roots across the spectrum of stationarity and nonstationarity, with persistence types as defined by Magdalinos and Phillips (2020). In particular, this R package builds on the [‘ivxPredictive’](https://github.com/christiskatsouris/ivxPredictive) R package prepared by Christis G. Katsouris. 
 
 <p align="center">
   
@@ -29,6 +29,8 @@ $$\text{if} \ \ \left( \theta_n \right)_{ n \in \mathbb{N} } \ \ \text{is such t
 ### Methodology  
   
 This R package implements a novel endogenous instrumentation approach based on the IVX estimator examined by [Phillips and Magdalinos (2009)](https://ideas.repec.org/p/skb/wpaper/cofie-06-2009.html) and [Kostakis, Magdalinos and Stamatogiannis (2015)](https://academic.oup.com/rfs/article/28/5/1506/1867633?login=true). The current procedure has a similar construction to the IV instrumentation proposed in the recent working paper of Magdalinos and Petrova (2022), with the aim to provide uniform and robust to the nuisance parameter of persistence inference across the spectrum of stationary and nonstationary roots, specifically for quantile autoregressive processes. We call this variant of the original IVX estimator, IVX-P, which can be employed to both conditional mean and conditional quantile functional forms when the model includes either univariate or multivariate regressors. The novelty of the IVX-P estimator is that is a 'hybrid estimator' which in contrast to the classical least squares estimator has desirable asymptotic theory properties and is constructed based on the underline nonstationary stochastic processes using information both within the admissible parameter space as well as outside the usual parameter space.  
+
+Furthermore, this R package implements robust estimation and testing for high-Dimensional IV Cointegration Models with either a conditional mean or conditional quantile specification function. 
   
 ## Installation (under development) 
 
