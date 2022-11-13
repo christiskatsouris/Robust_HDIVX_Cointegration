@@ -53,6 +53,7 @@ library("Robust_high_dimensional_IV_Cointegration")
 - Katsouris, C. (2022a). "Asymptotic Theory for Moderate Deviations from the Unit Boundary in Quantile Autoregressive Time Series". arXiv preprint [arXiv:2204.02073](https://arxiv.org/abs/2204.02073).
 - Katsouris, C. (2021e). "Bootstrapping Nonstationary Autoregressive Processes in Predictive Regression". University of Southampton, Working paper.   
 - Katsouris, C. (2021d). "Testing for Structural Breaks in Predictive Regression Models". University of Southampton, Working paper.  
+- Ke-Li Xu & Junjie Guo (2022). A New Test for Multiple Predictive Regression. Journal of Financial Econometrics.
 - Kostakis, A., Magdalinos, T., & Stamatogiannis, M. P. (2015). "Robust econometric inference for stock return predictability". The Review of Financial Studies, 28(5), 1506-1553.
 - Koo, B., Anderson, H. M., Seo, M. H., & Yao, W. (2020). High-dimensional predictive regression in the presence of cointegration. Journal of Econometrics, 219(2), 456-477.
 - Lee, J. H. (2016). "Predictive quantile regression with persistent covariates: IVX-QR approach". Journal of Econometrics, 192(1), 105-118.
