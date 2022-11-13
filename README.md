@@ -56,7 +56,7 @@ library("Robust_high_dimensional_IV_Cointegration")
 
 ## Monte Carlo Simulation Studies:
 
-Here we present the R coding and some preliminary results based on a Monte Carlo Simulation study of the finite-sample properties of the inferential procedure that is under development in the research project.  
+Here we present the R coding and some preliminary results based on a Monte Carlo Simulation study of the finite-sample properties of the inferential procedure that is under development for this research project.  
 
 
 ```R
