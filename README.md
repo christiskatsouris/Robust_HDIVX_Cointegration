@@ -69,4 +69,4 @@ library("Robust_high_dimensional_IV_Cointegration")
 
 # Acknowledgments
 
-The author greatfully acknowledges financial support from the Department of Economics at the Faculty of Environment, Science and Economy of the University of Exeter, United Kingdom. 
+The author greatfully acknowledges financial support from the [Department of Economics](http://business-school.exeter.ac.uk/about/departments/economics/) at the [Faculty of Environment, Science and Economy](https://www.exeter.ac.uk/departments/ese/) of the University of Exeter, United Kingdom. 
