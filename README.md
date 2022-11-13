@@ -34,7 +34,7 @@ Furthermore, this R package implements robust estimation and testing for high-Di
   
 ## Installation (under development) 
 
-The R package ‘Robust_high_dimensional_IV_Cointegration’ will be able to be installed from Github.
+The R package [‘Robust_high_dimensional_IV_Cointegration’](https://github.com/christiskatsouris/Robust_high_dimensional_IV_Cointegration) will be able to be installed from Github.
 
 ## Usage 
 
