@@ -60,7 +60,7 @@ Here we present the R coding and some preliminary results based on a Monte Carlo
 
 Consider the following Toeplitz structure of the covariance matrix. 
 
-$$\textbf{\Sigma} = \rho^{| j - k |}.$$ 
+$\textbf{\Sigma} = \rho^{| j - k |}.$ 
 
 ```R
 
