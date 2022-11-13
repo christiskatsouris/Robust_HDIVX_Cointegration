@@ -36,7 +36,7 @@ Furthermore, this R package implements robust estimation and testing for high-Di
 
 The R package [‘Robust_high_dimensional_IV_Cointegration’](https://github.com/christiskatsouris/Robust_high_dimensional_IV_Cointegration) will be able to be installed from Github.
 
-## Usage 
+## Usage: 
 
 ```R
 
@@ -67,6 +67,6 @@ library("Robust_high_dimensional_IV_Cointegration")
 - Phillips, P. C. B., and Magdalinos, T. (2007). Limit theory for moderate deviations from a unit root. Journal of Econometrics, 136(1), 115-130.
 - Yousuf, K., & Ng, S. (2021). Boosting high dimensional predictive regressions with time varying parameters. Journal of Econometrics, 224(1), 60-87.
 
-## Acknowledgments
+# Acknowledgments
 
 The author greatfully acknowledges financial support from the Department of Economics at the Faculty of Environment, Science and Economy of the University of Exeter, United Kingdom. 
