@@ -55,6 +55,7 @@ library("Robust_high_dimensional_IV_Cointegration")
 - Kostakis, A., Magdalinos, T., & Stamatogiannis, M. P. (2015). "Robust econometric inference for stock return predictability". The Review of Financial Studies, 28(5), 1506-1553.
 - Koo, B., Anderson, H. M., Seo, M. H., & Yao, W. (2020). High-dimensional predictive regression in the presence of cointegration. Journal of Econometrics, 219(2), 456-477.
 - Lee, J. H. (2016). "Predictive quantile regression with persistent covariates: IVX-QR approach". Journal of Econometrics, 192(1), 105-118.
+- Lee, J. H., Shi, Z., & Gao, Z. (2022). On LASSO for predictive regression. Journal of Econometrics, 229(2), 322-349.
 - Fan, R., & Lee, J. H. (2019). Predictive quantile regressions under persistence and conditional heteroskedasticity. Journal of Econometrics, 213(1), 261-280.
 - Magdalinos, T. (2016). Least squares and IVX limit theory in systems of predictive regressions with GARCH innovations. Econometric Theory, 1-38.
 - Magdalinos, T., and Petrova, K. (2022). "Uniform and distribution-free inference with general autoregressive processes". University of Southampton, Working paper.
@@ -62,3 +63,4 @@ library("Robust_high_dimensional_IV_Cointegration")
 - Phillips, P. C. B., and Magdalinos, T. (2009). "Econometric inference in the vicinity of unity". Singapore Management University, CoFie Working paper, 7.
 - Phillips, P. C. B., and Magdalinos, T. (2008). Limit theory for explosively cointegrated systems. Econometric Theory, 24(4), 865-887.
 - Phillips, P. C. B., and Magdalinos, T. (2007). Limit theory for moderate deviations from a unit root. Journal of Econometrics, 136(1), 115-130.
+- Yousuf, K., & Ng, S. (2021). Boosting high dimensional predictive regressions with time varying parameters. Journal of Econometrics, 224(1), 60-87.
