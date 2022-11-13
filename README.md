@@ -2,7 +2,7 @@
 
 ### Description 
 
-The R package [‘Robust_high_dimensional_IV_Cointegration’](https://github.com/christiskatsouris/Robust_high_dimensional_IV_Cointegration) (under development by Christis G. Katsouris) implements robust econometric estimation and inference methodologies for high-Dimensional IV Cointegration Models with autoregressive roots under both the regimes of stationarity and nonstationarity, with persistence types as defined by Phillips and Magdalinos (2009): "Econometric inference in the vicinity of unity". In particular, this R package builds on the [‘ivxPredictive’](https://github.com/christiskatsouris/ivxPredictive) R package prepared by Christis G. Katsouris. 
+The R package [‘Robust_high_dimensional_IV_Cointegration’](https://github.com/christiskatsouris/Robust_high_dimensional_IV_Cointegration) (under development by Christis G. Katsouris) implements robust econometric estimation and inference methodologies for high-Dimensional IV Cointegration Models with autoregressive roots under both the regimes of stationarity and nonstationarity and persistence types as defined by Phillips and Magdalinos (2009): "Econometric inference in the vicinity of unity" (see, also Magdalinos and Phillips (2020)). In particular, this R package builds on the [‘ivxPredictive’](https://github.com/christiskatsouris/ivxPredictive) R package prepared by Christis G. Katsouris. 
 
 <p align="center">
   
