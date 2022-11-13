@@ -48,7 +48,7 @@ library("Robust_high_dimensional_IV_Cointegration")
 
 ## Main References:
 
-- Katsouris, C. (2022c). "Estimation and Inference in Quantile Predictive Regression Systems" (Chapter 4, PhD thesis Department of Economics, University of Southampton.
+- Katsouris, C. (2022c). "Estimation and Inference in Quantile Predictive Regression Systems" (Chapter 4, PhD thesis, School of Economic, Social and Political Sciences, University of Southampton.
 - Katsouris, C. (2022b). "Asymptotic Theory for Moderate Deviations from the Unit Boundary in Quantile Autoregression and Predictive Regression Models". University of Southampton, Working paper.  
 - Katsouris, C. (2022a). "Asymptotic Theory for Moderate Deviations from the Unit Boundary in Quantile Autoregressive Time Series". arXiv preprint [arXiv:2204.02073](https://arxiv.org/abs/2204.02073).
 - Katsouris, C. (2021d). "Testing for Structural Breaks in Predictive Regression Models". University of Southampton, Working paper.  
