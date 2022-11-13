@@ -85,6 +85,7 @@ library("Robust_high_dimensional_IV_Cointegration")
 - Wagner, M., Grabarczyk, P., & Hong, S. H. (2020). "Fully modified OLS estimation and inference for seemingly unrelated cointegrating polynomial regressions and the environmental Kuznets curve for carbon dioxide emissions". Journal of Econometrics, 214(1), 216-255.
 - Yousuf, K., & Ng, S. (2021). "Boosting high dimensional predictive regressions with time varying parameters". Journal of Econometrics, 224(1), 60-87.
 - Zhu, F., Cai, Z., & Peng, L. (2014). "Predictive regressions for macroeconomic data". The Annals of Applied Statistics, 8(1), 577-594.
+- Gold, D., Lederer, J., & Tao, J. (2020). "Inference for high-dimensional instrumental variables regression". Journal of Econometrics, 217(1), 79-111.
 
 # Acknowledgments
 
