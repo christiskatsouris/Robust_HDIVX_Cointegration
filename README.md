@@ -58,6 +58,9 @@ library("Robust_high_dimensional_IV_Cointegration")
 
 Here we present the R coding and some preliminary results based on a Monte Carlo Simulation study of the finite-sample properties of the inferential procedure that is under development for this research project.  
 
+Consider the following Toeplitz structure of the covariance matrix. 
+
+$$\textbf{Sigma} = \rho^{| j - k |}$$. 
 
 ```R
 
