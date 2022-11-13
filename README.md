@@ -46,7 +46,7 @@ library("Robust_high_dimensional_IV_Cointegration")
 
 ```
 
-## Estimation Examples:
+## Estimation and Inference Examples:
 
 ```R
 
@@ -54,7 +54,7 @@ library("Robust_high_dimensional_IV_Cointegration")
 
 ```
 
-## Numerical Illustrations:
+## Monte Carlo Simulation Studies:
 
 ```R
 
