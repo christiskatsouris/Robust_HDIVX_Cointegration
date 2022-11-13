@@ -123,6 +123,6 @@ Harald Cramér  (25 September 1893 – 5 October 1985) was a Swedish mathematici
 <p align="center">
   
 <img src="https://github.com/christiskatsouris/
-Robust_high_dimensional_IV_Cointegration/blob/main/data/BTC.jpg" width="460"/>
+Robust_high_dimensional_IV_Cointegration/blob/main/data/BTC.JPG" width="460"/>
 
 </p>  
