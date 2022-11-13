@@ -48,6 +48,8 @@ library("Robust_high_dimensional_IV_Cointegration")
 
 ## Estimation and Inference Examples:
 
+An important application of the proposed estimation and inference framework is the monitoring of financial bubbles. However, for the empirical application of the paper we focus on a climate related dataset. 
+
 ```R
 
 
