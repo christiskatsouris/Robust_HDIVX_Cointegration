@@ -84,8 +84,8 @@ Consider the following Toeplitz structure of the covariance matrix.
 - Lee, J. H., Shi, Z., & Gao, Z. (2022). "On LASSO for predictive regression". Journal of Econometrics, 229(2), 322-349.
 - Fan, R., & Lee, J. H. (2019). "Predictive quantile regressions under persistence and conditional heteroskedasticity". Journal of Econometrics, 213(1), 261-280.
 - Chen, W. W., Deo, R. S., & Yi, Y. (2013). "Uniform inference in predictive regression models". Journal of Business & Economic Statistics, 31(4), 525-533.
+- Magdalinos, T., and Petrova, K. (2022). "Uniform and distribution-free inference with general autoregressive processes". University of Southampton, Department of Economics, Working paper.
 - Magdalinos, T. (2016). "Least squares and IVX limit theory in systems of predictive regressions with GARCH innovations". Econometric Theory, 1-38.
-- Magdalinos, T., and Petrova, K. (2022). "Uniform and distribution-free inference with general autoregressive processes". University of Southampton, Working paper.
 - Magdalinos, T., and Phillips, P. C. B. (2009). "Limit theory for cointegrated systems with moderately integrated and moderately explosive regressors". Econometric Theory, 25(2), 482-526.
 - Phillips, P. C. B., and Magdalinos, T. (2009). "Econometric inference in the vicinity of unity". Singapore Management University, CoFie Working paper, 7.
 - Phillips, P. C. B., and Magdalinos, T. (2008). "Limit theory for explosively cointegrated systems". Econometric Theory, 24(4), 865-887.
