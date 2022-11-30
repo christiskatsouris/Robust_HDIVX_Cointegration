@@ -50,9 +50,585 @@ library("Robust_high_dimensional_IV_Cointegration")
 
 An important application of the proposed estimation and inference framework is the monitoring of financial bubbles. However, for the empirical application of the paper we focus on a climate change related dataset. We begin by considering the estimation and testing procedure for the proposed modelling framework. 
 
-```R
+```MATLAB
+
+% Procedure borrowed from the paper: Ke-Li Xu & Junjie Guo (2022). 
+% "A New Test for Multiple Predictive Regression". Journal of Financial Econometrics.
+
+function [aa bb cc dd ee ff ] = compute_size_0608(dataset,nr,h,epsilon);
+
+%start simulation
+Ys      = dataset.Y;
+Xs      = dataset.X;
+nr      = size(Ys,3);
+pv      = zeros(nr, 1); %IVX-MAX0.
+
+rej     = zeros(nr, 1);
+rej_OLS = zeros(nr, 1);
+rej_KMS = zeros(nr, 1);
+rej_LM  = zeros(nr, 1);
+rej_W   = zeros(nr, 1);
+pv_W0   = zeros(nr, 1);
+pv_W1   = zeros(nr, 1);
+parfor i = 1:nr
+    yt = squeeze(Ys(:,1,i));
+    xt = squeeze(Xs(:,:,i));
+    [rej(i,1) pv(i,1) rej_OLS(i,1) rej_W(i,1) pv_W0(i,1) pv_W1(i,1)] =  IV_max_J_IVX_0404(yt,xt,h,epsilon);
+    [~,~,Wivx,~,~,~]=ivxlh_0404(yt,xt,h);
+    rej_KMS(i,1) = Wivx(2);
+    [~,~,Wivx,~,~,~]=ivxlh_modified_0419(yt,xt,h,0);
+    rej_LM(i,1) = Wivx(2);    
+end
 
 
+aa=(sum(rej_KMS<=epsilon)/nr)';
+bb=(sum(rej_LM<=epsilon)/nr)';
+cc=(sum(pv<=epsilon)/nr);
+dd=(sum(rej)/nr);
+ee=(sum(pv_W0<=epsilon)/nr);
+ff=(sum(pv_W1<=epsilon)/nr);
+
+
+end
+
+function [rej,pv,rej1,rej_W,pv_W0, pv_W1] = IV_max_J_IVX_0404(R,X,h,epsilon)
+%% housekeeping
+T               = size(X,1);
+m               = size(X,2);
+mf              = 0;
+B               = 10000;
+
+%% start OLS regression
+YY              = R(2:end);
+XX              = [X(1:end-1,:)];
+nn              = size(YY,1);
+YY              = YY - mean(YY);
+XX              = XX - kron(ones(nn,1),mean(XX));
+Yvec            = kron(YY,ones(m,1));
+
+%construct Xmat
+Xmat            = zeros(nn*m,m*(1+mf));
+for i = 1:nn
+    for j = 1:m
+        Xmat((i-1)*m+j,1+(j-1)*(1+mf))  = [XX(i,j)];
+    end
+end
+theta           = (Xmat'*Xmat)\(Xmat'*Yvec);
+
+%% instrument construction
+xlag            = [X(1:end-1,:)];
+xt              = [X(2:end,:)];
+n               = nn-h+1;
+Rz              = (1-1/(nn^0.95))*eye(m+mf); 
+diffx           = xt-xlag; 
+z               = zeros(nn,m+mf);
+z(1,:)          = diffx(1,:);
+
+for i=2:nn
+    z(i,:)=z(i-1,:)*Rz+diffx(i,:);
+end
+Z               = [zeros(1,m+mf);z(1:n-1,:)];
+zz              = [zeros(1,m+mf);z(1:nn-1,:)];
+ZK              = zeros(n,m+mf); %% sum over time
+for i=1:n
+    ZK(i,:)=sum(zz(i:i+h-1,:),1);
+end
+%construct Zmat
+Zmat            = zeros(nn*m,m*(1+mf));
+for i = 1:nn
+    for j = 1:m
+        Zmat((i-1)*m+j,1+(j-1)*(1+mf))  = [Z(i,j)];        
+    end       
+end
+theta_IV        = (Zmat'*Xmat)\(Zmat'*Yvec);
+
+%autoregressive residual estimation 
+
+u =zeros(nn,m+mf);
+for i=1:m+mf
+%     rn=regress(xt(:,i),[ones(nn,1) xlag(:,i)]);
+%     u(:,i) = xt(:,i)-[ones(nn,1) xlag(:,i)]*rn; %
+    rn=regress(xt(:,i),[ xlag(:,i)]);
+    u(:,i) = xt(:,i)-[ xlag(:,i)]*rn; %
+end
+%u=xt-xlag*rn;
+
+%covariance matrix estimation (autoregression)
+covu=zeros(m+mf,m+mf);
+for t=1:nn
+    covu=covu+u(t,:)'*u(t,:);
+end
+covu=covu/nn;
+
+mm=floor(nn^(1/3)); 
+uu=zeros(m+mf,m+mf);
+for h=1:mm
+    a=zeros(m+mf,m+mf);
+    for t=(h+1):nn
+        a=a+u(t,:)'*u(t-h,:);
+    end
+    uu=uu+(1-h/(mm+1))*a;
+end 
+uu=uu/nn;
+Omegauu=covu+uu+uu'; 
+
+%% variance-covariance matrix of W0_mat
+W0              = Yvec - Xmat*theta;
+W0_mat          = reshape(W0,m,nn);
+UU              = zeros(m,m);
+ZX              = zeros(m*(1+mf),m*(1+mf));
+XZ              = zeros(m*(1+mf),m*(1+mf));
+ZZ              = zeros(m*(1+mf),m*(1+mf));
+ZS              = zeros(m,m*(1+mf));
+XX              = zeros(m*(1+mf),m*(1+mf));
+XS              = zeros(m*(1+mf),m*(1+mf));
+for ii = 1:nn
+    UU              = UU + W0_mat(:,ii)*W0_mat(:,ii)';
+end
+UU              = UU/nn;
+covepshat       = UU;
+
+%% covariance matrix between 'W0' and 'u'
+covuhat=zeros(m,m+mf);
+for i=1:m+mf
+    for j=1:m
+        covuhat(j,i)=sum(W0_mat(j,:)*u(:,i));
+    end
+end
+covuhat=covuhat'/nn;
+
+residue = zeros(m,m+mf);
+for i = 1:m
+    q=zeros(mm,m+mf);
+    for h=1:mm
+        p=zeros(nn-h,m+mf);
+            for t=(h+1):nn
+                    p(t-h,:)=u(t,:)*W0_mat(i,t-h)'; %u seems to have a problem
+            end
+        q(h,:)=(1-h/(1+mm))*sum(p);
+    end
+    residue(i,:) = sum(q)/nn;
+end
+Omegaeu=covuhat+residue';  %residue is different
+FM=covepshat-Omegaeu'*inv(Omegauu)*Omegaeu;
+
+for ii = 1:nn
+    ZX              = ZX + (Zmat((ii-1)*m+1:ii*m,:))'*Xmat((ii-1)*m+1:ii*m,:);
+    XZ              = XZ + (Xmat((ii-1)*m+1:ii*m,:))'*Zmat((ii-1)*m+1:ii*m,:);
+    ZZ              = ZZ + (Zmat((ii-1)*m+1:ii*m,:))'*UU*(Zmat((ii-1)*m+1:ii*m,:));
+    ZS              = ZS + (Zmat((ii-1)*m+1:ii*m,:));
+    XS              = XS + (Xmat((ii-1)*m+1:ii*m,:))'*UU*(Xmat((ii-1)*m+1:ii*m,:));
+    XX              = XX + (Xmat((ii-1)*m+1:ii*m,:))'*Xmat((ii-1)*m+1:ii*m,:);
+end
+M0                  = ZZ - ZS'*FM*ZS/nn;
+V0                  = inv(ZX)*M0*inv(XZ);
+V1                  = inv(XX)*XS*inv(XX);
+
+%% construct the IV-based test
+betas               = theta_IV(1:1:end);
+M                   = max(betas.^2);
+V                   = V0;
+R1                  = kron(eye(m),[1]);
+V_sr                = chol(R1*V*R1')';
+AB                  = randn(m,B);
+Psi                 = zeros(B,1);
+
+for ii = 1:B
+    temp = V_sr*AB(:,ii);
+    Psi(ii,1) = max(temp.^2);
+end
+
+q  = quantile(Psi,1-epsilon);
+
+if M>q
+    rej = 1;
+else
+    rej = 0;
+end
+
+% J-test
+J   = betas'*(inv(V))*betas;
+pv  = 1-cdf('chi2',J, m);
+
+%% construct the OLS-based F-test
+[rej1,F] = F_test(R(2:end),X(1:end-1,:));
+
+%% construct the OLS-based Wald test
+[rej_W, W] = Wald_test(R(2:end,1),X(1:end-1,:));
+
+%% construct the OLS-based Wald test (my own program)
+[pv_W0, pv_W1] = Wald_test_0429(R(2:end),X(1:end-1,:));
+
+end
+
+%% KMS's original test
+function [Aols,Aivx,Wivx,WivxInd,Q,corrmat]=ivxlh_0404(yt,xt,K)
+xlag=xt(1:end-1,:);
+xt=xt(2:end,:);
+y=yt(2:end,:);
+
+[nn,l]=size(xlag); 
+X=[ones(nn,1) xlag];
+
+Wivx=zeros(2,1);
+WivxInd=zeros(2,l);
+
+%predictive regression residual estimation 
+[Aols,bhat,epshat]=regress(y,X); 
+
+rn=zeros(l,l);
+for i=1:l
+    rn(i,i)=regress(xt(:,i),xlag(:,i));
+end
+
+%autoregressive residual estimation 
+u=xt-xlag*rn;
+
+%residuals' correlation matrix
+corrmat=corrcoef([epshat u]);
+
+%covariance matrix estimation (predictive regression)
+covepshat=epshat'*epshat/nn;
+covu=zeros(l,l);
+for t=1:nn
+    covu=covu+u(t,:)'*u(t,:);
+end
+
+%covariance matrix estimation (autoregression)
+covu=covu/nn;
+covuhat=zeros(1,l);
+for i=1:l
+    covuhat(1,i)=sum(epshat.*u(:,i));
+end
+
+%covariance matrix between 'epshat' and 'u'
+covuhat=covuhat'/nn; 
+
+m=floor(nn^(1/3)); 
+uu=zeros(l,l);
+for h=1:m
+    a=zeros(l,l);
+    for t=(h+1):nn
+        a=a+u(t,:)'*u(t-h,:);
+    end
+    uu=uu+(1-h/(m+1))*a;
+end 
+uu=uu/nn;
+Omegauu=covu+uu+uu'; 
+
+q=zeros(m,l);
+for h=1:m
+    p=zeros(nn-h,l);
+    for t=(h+1):nn
+        p(t-h,:)=u(t,:)*epshat(t-h)';
+    end
+    q(h,:)=(1-h/(1+m))*sum(p);
+end
+residue=sum(q)/nn;
+Omegaeu=covuhat+residue'; 
+
+%instrument construction
+n=nn-K+1;
+Rz=(1-1/(nn^0.95))*eye(l); 
+diffx=xt-xlag; 
+z=zeros(nn,l);
+z(1,:)=diffx(1,:);
+for i=2:nn
+    z(i,:)=z(i-1,:)*Rz+diffx(i,:);
+end
+Z=[zeros(1,l);z(1:n-1,:)];
+
+
+zz=[zeros(1,l);z(1:nn-1,:)];
+ZK=zeros(n,l);
+for i=1:n
+    ZK(i,:)=sum(zz(i:i+K-1,:),1);
+end
+
+yy=zeros(n,1);
+for i=1:n
+    yy(i)=sum(y(i:i+K-1));
+end 
+xK=zeros(n,l);
+for i=1:n
+    xK(i,:)=sum(xlag(i:i+K-1,:),1);
+end 
+
+meanxK=mean(xK);
+Yt=yy-mean(yy);
+Xt=zeros(n,l);
+for i=1:l
+    Xt(:,i)=xK(:,i)-meanxK(:,i)*ones(n,1);
+end
+
+Aivx=Yt'*Z*pinv(Xt'*Z);
+meanzK=mean(ZK);
+
+FM=covepshat-Omegaeu'*Omegauu^(-1)*Omegaeu;
+M=ZK'*ZK*covepshat-n*meanzK'*meanzK*FM;
+
+H=eye(l);
+Q=H*pinv(Z'*Xt)*M*pinv(Xt'*Z)*H';
+Wivx(1,1)=(H*Aivx')'*pinv(Q)*(H*Aivx');   
+Wivx(2,1)= 1-cdf('chi2',Wivx(1,1), l);
+    
+WivxInd(1,:)=(Aivx./((diag(Q)).^(1/2))').^2;
+WivxInd(2,:)=1-cdf('chi2',WivxInd(1,:), 1);
+    
+end
+
+
+function [pv,F] = F_test(Y,XX);
+% this function is to test if all coefficients (except for the constant)
+% are zero
+
+[n p]   = size(XX);
+con     = ones(n,1);
+XX      = [con XX];
+beta    = (inv(XX'*XX)*(XX'*Y));
+SSE_full= sum((Y-XX*beta).^2);
+df_full = n-p-1;
+
+beta1   = (inv(con'*con)*(con'*Y));
+SSE_red = sum((Y-con*beta1).^2);
+
+F       = ((SSE_red-SSE_full)/p)/(SSE_full/df_full);
+pv      = 1-fcdf(F,p,df_full);
+end
+
+function [Aols,Aivx,Wivx,WivxInd,Q,corrmat]=ivxlh_modified_0419(yt,xt,K,printres)
+xlag=xt(1:end-1,:);
+xt=xt(2:end,:);
+y=yt(2:end,:);
+
+[nn,l]=size(xlag); 
+X=[ones(nn,1) xlag];
+
+Wivx=zeros(2,1);
+WivxInd=zeros(2,l);
+
+%predictive regression residual estimation 
+[Aols,bhat,epshat]=regress(y,X); 
+
+[~,~,epshat] = regress(y,ones(nn,1)); %%major change
+
+rn=zeros(l,l);
+for i=1:l
+    rn(i,i)=regress(xt(:,i),xlag(:,i));
+end
+
+%autoregressive residual estimation 
+u=xt-xlag*rn;
+
+%residuals' correlation matrix
+corrmat=corrcoef([epshat u]);
+
+%covariance matrix estimation (predictive regression)
+covepshat=epshat'*epshat/nn;
+covu=zeros(l,l);
+for t=1:nn
+    covu=covu+u(t,:)'*u(t,:);
+end
+
+%covariance matrix estimation (autoregression)
+covu=covu/nn;
+covuhat=zeros(1,l);
+for i=1:l
+    covuhat(1,i)=sum(epshat.*u(:,i));
+end
+
+%covariance matrix between 'epshat' and 'u'
+covuhat=covuhat'/nn; 
+
+m=floor(nn^(1/3)); 
+uu=zeros(l,l);
+for h=1:m
+    a=zeros(l,l);
+    for t=(h+1):nn
+        a=a+u(t,:)'*u(t-h,:);
+    end
+    uu=uu+(1-h/(m+1))*a;
+end 
+uu=uu/nn;
+Omegauu=covu+uu+uu'; 
+
+q=zeros(m,l);
+for h=1:m
+    p=zeros(nn-h,l);
+    for t=(h+1):nn
+        p(t-h,:)=u(t,:)*epshat(t-h)';
+    end
+    q(h,:)=(1-h/(1+m))*sum(p);
+end
+residue=sum(q)/nn;
+Omegaeu=covuhat+residue'; 
+
+%instrument construction
+n=nn-K+1;
+Rz=(1-1/(nn^0.95))*eye(l); 
+diffx=xt-xlag; 
+z=zeros(nn,l);
+z(1,:)=diffx(1,:);
+for i=2:nn
+    z(i,:)=z(i-1,:)*Rz+diffx(i,:);
+end
+Z=[zeros(1,l);z(1:n-1,:)];
+
+
+zz=[zeros(1,l);z(1:nn-1,:)];
+ZK=zeros(n,l);
+for i=1:n
+    ZK(i,:)=sum(zz(i:i+K-1,:),1);
+end
+
+yy=zeros(n,1);
+for i=1:n
+    yy(i)=sum(y(i:i+K-1));
+end 
+xK=zeros(n,l);
+for i=1:n
+    xK(i,:)=sum(xlag(i:i+K-1,:),1);
+end 
+
+meanxK=mean(xK);
+Yt=yy-mean(yy);
+Xt=zeros(n,l);
+for i=1:l
+    Xt(:,i)=xK(:,i)-meanxK(:,i)*ones(n,1);
+end
+
+Aivx=Yt'*Z*pinv(Xt'*Z);
+meanzK=mean(ZK);
+
+FM=covepshat-Omegaeu'*Omegauu^(-1)*Omegaeu;
+M=ZK'*ZK*covepshat-n*meanzK'*meanzK*FM;
+
+H=eye(l);
+Q=H*pinv(Z'*Xt)*M*pinv(Xt'*Z)*H';
+Wivx(1,1)=(H*Aivx')'*pinv(Q)*(H*Aivx');   
+Wivx(2,1)= 1-cdf('chi2',Wivx(1,1), l);
+    
+WivxInd(1,:)=(Aivx./((diag(Q)).^(1/2))').^2;
+WivxInd(2,:)=1-cdf('chi2',WivxInd(1,:), 1);
+    
+end
+
+function [pv, W] = Wald_test(Y,X)
+[n m_x] = size(X);
+X = [ones(n,1) X]; %add a constant
+b = (inv(X'*X)*(X'*Y));
+sig2 = (sum((Y-X*b).^2))/(n-1-(m_x+1));
+V = (inv(X'*X)*sig2);
+W = (b(2:end,1)'*inv(V(2:end,2:end))*b(2:end,1));
+pv = 1-cdf('chi2',W, m_x);
+end
+
+function [pv0, pv1] = Wald_test_0429(Y,X)
+[n m_x] = size(X);
+X = [ones(n,1) X]; %add a constant
+b = (inv(X'*X)*(X'*Y));
+res = (Y-X*b).^2;
+temp=zeros(m_x+1,m_x+1);
+for i = 1:n
+    temp=temp+ (X(i,:)'*X(i,:))*res(i);
+end
+Omega = temp/n;
+EXX   = inv(X'*X/n);
+V0 = (EXX*Omega*EXX)/n;
+W0 = (b(2:end,1)'*inv(V0(2:end,2:end))*b(2:end,1));
+pv0 = 1-cdf('chi2',W0, m_x);
+V1 = (n/(n-(m_x+1)))*V0;
+W1 = (b(2:end,1)'*inv(V1(2:end,2:end))*b(2:end,1));
+pv1 = 1-cdf('chi2',W1, m_x);
+end
+
+% This function is used to compute OLS-F test (from Cochrane's website)
+function [bv,sebv,R2v,R2vadj,v,F] = olsgmm(lhv,rhv,lags,weight);
+
+if size(rhv,1) ~= size(lhv,1);
+   disp('olsgmm: left and right sides must have same number of rows. Current rows are');
+   size(lhv)
+   size(rhv)
+end;
+
+T = size(lhv,1);
+N = size(lhv,2);
+K = size(rhv,2);
+sebv = zeros(K,N);
+Exxprim = inv((rhv'*rhv)/T);
+bv = rhv\lhv;
+
+% if weight, lags are is scalar expand so all have the same value
+if (size(weight,1) == 1) & (size(lhv,2) > 1); 
+    weight = weight*ones(size(lhv,2),1); 
+end; 
+if (size(lags,1) == 1) & (size(lhv,2) > 1); 
+    lags = lags*ones(size(lhv,2),1); 
+end; 
+
+
+if weight == -1;  % skip ses if you don't want them.  returns something so won't get error message
+    sebv=NaN;
+    R2v=NaN;
+    R2vadj=NaN;
+    v=NaN;
+    F=NaN;
+else; 
+    errv = lhv-rhv*bv;
+    s2 = mean(errv.^2);
+    vary = lhv - ones(T,1)*mean(lhv);
+    vary = mean(vary.^2);
+
+    R2v = (1-s2./vary)';
+    R2vadj= (1 - (s2./vary)*(T-1)/(T-K))';
+    
+    %compute standard errors
+    for indx = 1:N;
+        err=errv(:,indx);
+        if (weight(indx) == 0)|(weight(indx) == 1)
+            inner = (rhv.*(err*ones(1,K)))'*(rhv.*(err*ones(1,K)))/T;
+            
+        	for jindx = (1:lags(indx));
+                inneradd = (rhv(1:T-jindx,:).*(err(1:T-jindx)*ones(1,K)))'...
+        	              *(rhv(1+jindx:T,:).*(err(1+jindx:T)*ones(1,K)))/T;
+        	    inner = inner + (1-weight(indx)*jindx/(lags(indx)+1))*(inneradd + inneradd');
+            end;
+        elseif weight(indx) == 2; 
+            inner = rhv'*rhv/T; 
+            for jindx = 1:lags(indx); 
+                inneradd = rhv(1:T-jindx,:)'*rhv(1+jindx:T,:)/T;
+                inner = inner + (1-jindx/lags(indx))*(inneradd+inneradd'); 
+            end; 
+            inner = inner*std(err)^2;
+        end; 
+        varb = 1/T*Exxprim*inner*Exxprim;
+        
+        % F test for all coeffs (except constant) zero -- actually chi2 test
+        if rhv(:,1) == ones(size(rhv,1),1); 
+            chi2val = bv(2:end,indx)'*inv(varb(2:end,2:end))*bv(2:end,indx);
+            dof = size(bv(2:end,1),1); 
+            pval = 1-cdf('chi2',chi2val, dof); 
+            F(indx,1:3) = [chi2val dof pval]; 
+        else; 
+            chi2val = bv(:,indx)'*inv(varb)*bv(:,indx);
+            dof = size(bv(:,1),1); 
+            pval = 1-cdf('chi2',chi2val, dof); 
+            F(indx,1:3) = [chi2val dof pval]; 
+        end; 
+            
+        if indx == 1; 
+           v = varb;
+        else;
+           v = [v; varb ];
+        end;
+        
+       seb = diag(varb);
+       seb = sign(seb).*(abs(seb).^0.5);
+       sebv(:,indx) = seb;
+    end;
+end; % ends if w > -1;     
+
+end
 
 ```
 
