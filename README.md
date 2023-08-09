@@ -2,7 +2,7 @@
 
 ### Description 
 
-The R package [‘Robust_high_dimensional_IV_Cointegration’](https://github.com/christiskatsouris/Robust_high_dimensional_IV_Cointegration) (under development by Christis G. Katsouris) implements robust econometric estimation and inference methodologies for high-Dimensional IV Cointegration Models with autoregressive roots under both the regimes of stationarity and nonstationarity and persistence types as defined by Phillips and Magdalinos (2009): "Econometric inference in the vicinity of unity" (see, also Magdalinos and Phillips (2020)). The current package builds on the [‘ivxPredictive’](https://github.com/christiskatsouris/ivxPredictive) package prepared by Christis G. Katsouris. 
+The R package [‘Robust_HDIVX_Cointegration’](https://github.com/christiskatsouris/Robust_high_dimensional_IV_Cointegration) (under development by Christis G. Katsouris) implements robust econometric estimation and inference methodologies for high-Dimensional IV Cointegration Models with autoregressive roots under both the regimes of stationarity and nonstationarity and persistence types as defined by Phillips and Magdalinos (2009): "Econometric inference in the vicinity of unity" (see, also Magdalinos and Phillips (2020)). The current package builds on the [‘ivxPredictive’](https://github.com/christiskatsouris/ivxPredictive) package prepared by Christis G. Katsouris. 
 
 <p align="center">
   
@@ -34,15 +34,15 @@ Furthermore, this R package implements robust estimation and testing for high-Di
   
 ## Installation (under development) 
 
-The R package [‘Robust_high_dimensional_IV_Cointegration’](https://github.com/christiskatsouris/Robust_high_dimensional_IV_Cointegration) will be able to be installed from Github.
+The R package [‘Robust_HDIVX_Cointegration’](https://github.com/christiskatsouris/Robust_high_dimensional_IV_Cointegration) will be able to be installed from Github.
 
 ## Usage: 
 
 ```R
 
 # After development the package will be able to be installed using
-install.packages("Robust_high_dimensional_IV_Cointegration")
-library("Robust_high_dimensional_IV_Cointegration")
+install.packages("Robust_HDIVX_Cointegration")
+library("Robust_HDIVX_Cointegration")
 
 ```
 
@@ -80,15 +80,12 @@ parfor i = 1:nr
     rej_LM(i,1) = Wivx(2);    
 end
 
-
 aa=(sum(rej_KMS<=epsilon)/nr)';
 bb=(sum(rej_LM<=epsilon)/nr)';
 cc=(sum(pv<=epsilon)/nr);
 dd=(sum(rej)/nr);
 ee=(sum(pv_W0<=epsilon)/nr);
 ff=(sum(pv_W1<=epsilon)/nr);
-
-
 end
 
 function [rej,pv,rej1,rej_W,pv_W0, pv_W1] = IV_max_J_IVX_0404(R,X,h,epsilon)
@@ -645,7 +642,6 @@ Consider the following Toeplitz structure of the covariance matrix.
 
 
 ```
-
 ## Main References:
 
 - Katsouris, C. (2022c). "Estimation and Inference in Quantile Predictive Regression Systems" (Chapter 4, PhD thesis, School of Economic, Social and Political Sciences, University of Southampton.
@@ -687,8 +683,6 @@ Christis G. Katsouris is a Lecturer in Economics at the [University of Exeter Bu
 # Declarations
 
 The author (Christis G. Katsouris) declares no conflicts of interest.
-
-Notice that the academic research presented here is considered to be as open access to the academic and non-academic community. Therefore, we would appreciate it if appropriate acknolwedgement is given to statistical methodologies and econometric procedures developed by academic researchers and made available to the wider applied data scientist community.   
 
 # Historical Background
 
